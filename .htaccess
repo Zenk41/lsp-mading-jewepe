@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Remove index.php from URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-l
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Set default file for directory indexing
+DirectoryIndex index.php
+
+# Disable directory browsing
+Options -Indexes
