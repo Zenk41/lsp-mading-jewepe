@@ -1,8 +1,6 @@
 <?php namespace app\models;
 
-use models\Database;
-
-include_once "app/models/database.php";
+use app\models\Database;
 
 class Session extends Database
 {

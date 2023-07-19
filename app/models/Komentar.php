@@ -1,9 +1,7 @@
 <?php
 namespace app\models;
 
-include_once "app/models/Database.php";
-
-use models\Database;
+use app\models\Database;
 
 class Komentar extends Database
 {
