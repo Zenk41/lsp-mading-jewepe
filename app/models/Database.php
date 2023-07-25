@@ -146,6 +146,21 @@ abstract class Database
   $query->execute([$value]);
  }
 
+ protected static function deleteMultiple(string $table, string $column, array $values): void
+ {
+  $sql = "DELETE FROM $table WHERE $column IN (";
+  $placeholders = implode(',', array_fill(0, count($values), '?'));
+  $sql .= $placeholders . ")";
+
+  $query = self::conn()->prepare($sql);
+
+  if ($query) {
+   // Bind parameters and execute the prepared statement
+   $query->bind_param(str_repeat('s', count($values)), ...$values);
+   $query->execute();
+  }
+ }
+
  protected static function count(string $table, string $colName, string $condition = '', string $value = '')
  {
   $sql = "SELECT COUNT(*) AS " . $colName . " FROM " . $table;
@@ -232,3 +247,26 @@ abstract class Database
 
 // // Close the connection
 // $mysqli->close();
+
+
+// protected static function getUsersWithRoles()
+// {
+//     $sql = "SELECT users.user_id, users.username, roles.role_name
+//             FROM users
+//             INNER JOIN user_roles ON users.user_id = user_roles.user_id
+//             INNER JOIN roles ON user_roles.role_id = roles.role_id";
+
+//     $query = self::conn()->query($sql);
+
+//     if ($query) {
+//         // Fetch the results and store them in an array
+//         $resultArray = array();
+//         while ($row = $query->fetch_assoc()) {
+//             $resultArray[] = $row;
+//         }
+
+//         return $resultArray;
+//     } else {
+//         return array(); // Return an empty array if the query fails
+//     }
+// }
