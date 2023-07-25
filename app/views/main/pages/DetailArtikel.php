@@ -32,7 +32,7 @@
      </div>
     <?php endforeach; ?>
    <?php else: ?>
-    <p>No komentar</p>
+    <p>tidak ada komentar</p>
    <?php endif; ?>
   </div>
 

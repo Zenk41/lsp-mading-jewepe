@@ -46,6 +46,9 @@
         echo "<td>";
         echo "<a href='".DASHBOARD ."/komentar/delete?id=" . $data['ID_komentar'] . "' class='btn btn-danger btn-sm'>Delete</a>";
         echo "</td>";
+        echo "<td>";
+        echo "<a href='".DASHBOARD ."/komentar/hide?id=" . $data['ID_komentar'] . "' class='btn btn-danger btn-sm'>ON</a>";
+        echo "</td>";
         echo "</tr>";
        }
       } else {

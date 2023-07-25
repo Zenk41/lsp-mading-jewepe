@@ -5,7 +5,7 @@
    <div class="list-group-item">
     <div class="row">
      <div class="col-md-4">
-      <img src="<?php echo BASE_URL . $data['gambar']; ?>" class="img-fluid">
+      <img src="<?php echo BASE_URL . ltrim(($data['gambar']), '.'); ?>" class="img-fluid">
      </div>
      <div class="col-md-8">
       <h5><?php echo $data['judul']; ?></h5>

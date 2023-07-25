@@ -27,13 +27,13 @@
         break;
        }
        $id = $data['ID_artikel'];
-       $image = BASE_URL . $data['gambar'];
+       $image = $data['gambar'];
        $title = $data['judul'];
        $url = BASE_URL . "/artikel/{$id}";
        ?>
    <div class="col-md-3">
     <div class="card" style="width: 100%;">
-     <img class="card-img-top" src="<?= $image ?>" alt="">
+     <img class="card-img-top" src="<?php echo BASE_URL . ltrim(($data['gambar']), '.'); ?>" alt="">
      <div class="card-body">
       <h5 class="card-title"><?= $title ?></h5>
       <a href="<?php echo $url ?>" class="btn btn-primary">Detail</a>

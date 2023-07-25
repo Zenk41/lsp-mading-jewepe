@@ -43,7 +43,9 @@ class Router
   $is_match = preg_match('~' . $regex . '~', $params, $matches);
 
   if ($is_match) {
-   $request = new Request(isset($matches[1]) ? [$matches[1]] : [], $query);
+   array_shift($matches);
+
+   $request = new Request($matches, $query);
    $callback($request);
   }
  }

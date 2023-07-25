@@ -56,5 +56,7 @@
     </div>
    </div>
   </div>
+  <div class="checkbox">
+</div>
  </div>
 </section>

@@ -1,10 +1,10 @@
 <section id="artikel">
  <?php if (isset($_GET['error'])): ?>
-  <p class="alert alert-danger" role="alert"><?= htmlspecialchars($_GET['error']) ?></p>
+   <p class="alert alert-danger" role="alert"><?= htmlspecialchars($_GET['error']) ?></p>
  <?php endif; ?>
 
  <?php if (isset($_GET['success'])): ?>
-  <p class="alert alert-success" role="alert"><?= htmlspecialchars($_GET['success']) ?></p>
+   <p class="alert alert-success" role="alert"><?= htmlspecialchars($_GET['success']) ?></p>
  <?php endif; ?>
 
  <div class="container-fluid">
@@ -34,6 +34,7 @@
        <th>Judul</th>
        <th>Konten</th>
        <th>Aksi</th>
+       <th>Komentar</th>
       </tr>
      </thead>
      <tbody>
@@ -47,7 +48,14 @@
         echo "<td>" . $data['konten'] . "</td>";
         echo "<td>";
         // echo "<a href='detail_artikel.php?id=" . $data['ID_artikel'] . "' class='btn btn-primary btn-sm mr-2'>Detail</a>";
-        echo "<a href='".DASHBOARD ."/artikel/delete?id=" . $data['ID_artikel'] . "' class='btn btn-danger btn-sm'>Delete</a>";
+        echo "<a href='" . DASHBOARD . "/artikel/delete?id=" . $data['ID_artikel'] . "' class='btn btn-danger btn-sm'>Delete</a>";
+        echo "<a href='" . DASHBOARD . "/artikel/" . $data['ID_artikel'] . "/edit' class='btn btn-primary btn-sm'>Ubah</a>";
+        echo "</td>";
+        if ($data['komentar']) {
+         echo "<td><a href='" . DASHBOARD . "/artikel/unhidekomentar?id=" . $data['ID_artikel'] . "' class='btn btn-success btn-sm' data-toggle='toggle'>Tampilkan</a></td>";
+        } else {
+         echo "<td><a href='" . DASHBOARD . "/artikel/hidekomentar?id=" . $data['ID_artikel'] . "' class='btn btn-warning btn-sm' data-toggle='toggle'>Sembunyikan</a></td>";
+        }
         echo "</td>";
         echo "</tr>";
        }

@@ -12,6 +12,7 @@ abstract class Database
  private static $user = 'root';
  private static $pass = '';
  private static $dbname = 'mading_jewepe';
+
  private static function setDb()
  {
   self::$_dbConnect = new mysqli(self::$host, self::$user, self::$pass, self::$dbname);
@@ -115,21 +116,28 @@ abstract class Database
  protected static function updateOne(string $table, array $newData, string $condition, int $uniq): void
  {
   $sets = '';
-  foreach ($newData as $key => $value) {
-   $sets .= "$key = :$key, ";
-  }
-  $sets = substr($sets, 0, -1);
+  $types = '';
+  $values = array();
 
-  $sql = "UPDATE $table SET $sets WHERE $condition = :$condition";
+  foreach ($newData as $key => $value) {
+   $sets .= "$key = ?, ";
+   $types .= 's'; // Assuming all values are strings, you can adjust the type accordingly
+   $values[] = $value;
+  }
+  $sets = substr($sets, 0, -2); // Remove the last comma and space
+
+  $sql = "UPDATE $table SET $sets WHERE $condition = ?";
+  $values[] = $uniq;
+  $types .= 'i'; // Assuming the condition value is an integer, you can adjust the type accordingly
+
   $query = self::conn()->prepare($sql);
 
-  foreach ($newData as $key => $value) {
-   $query->bind_param(":$key", $value);
+  if ($query) {
+   $query->bind_param($types, ...$values);
+   $query->execute();
   }
-
-  $query->bind_param(":$condition", $uniq);
-  $query->execute();
  }
+
 
  protected static function deleteOne(string $table, string $column, string $value)
  {
@@ -154,4 +162,73 @@ abstract class Database
 
 }
 
-?>
+
+
+// // Check connection
+// if ($mysqli->connect_error) {
+//     die("Connection failed: " . $mysqli->connect_error);
+// }
+
+// // SQL query with INNER JOIN
+// $sql = "SELECT customers.customer_id, customers.name, orders.order_id, products.product_id, products.product_name
+//         FROM customers
+//         INNER JOIN orders ON customers.customer_id = orders.customer_id
+//         INNER JOIN products ON orders.product_id = products.product_id";
+
+// // Perform the query
+// $result = $mysqli->query($sql);
+
+// // Check if the query was successful
+// if ($result) {
+//     // Fetch the results and process them
+//     while ($row = $result->fetch_assoc()) {
+//         // Access the data in $row, e.g. $row['customer_id'], $row['name'], etc.
+//         // You can perform any operations you need with the retrieved data here
+//         echo "Customer ID: " . $row['customer_id'] . ", Name: " . $row['name'] . ", Order ID: " . $row['order_id'] . ", Product ID: " . $row['product_id'] . ", Product Name: " . $row['product_name'] . "<br>";
+//     }
+
+//     // Free the result set
+//     $result->free();
+// } else {
+//     // Query execution failed
+//     echo "Error: " . $mysqli->error;
+// }
+
+// // Close the connection
+// $mysqli->close();
+
+// Assuming you have established the database connection
+// $mysqli = new mysqli("hostname", "username", "password", "database_name");
+
+// // Check connection
+// if ($mysqli->connect_error) {
+//     die("Connection failed: " . $mysqli->connect_error);
+// }
+
+// // SQL query with LEFT JOIN
+// $sql = "SELECT customers.customer_id, customers.name, orders.order_id, products.product_id, products.product_name
+//         FROM customers
+//         LEFT JOIN orders ON customers.customer_id = orders.customer_id
+//         LEFT JOIN products ON orders.product_id = products.product_id";
+
+// // Perform the query
+// $result = $mysqli->query($sql);
+
+// // Check if the query was successful
+// if ($result) {
+//     // Fetch the results and process them
+//     while ($row = $result->fetch_assoc()) {
+//         // Access the data in $row, e.g. $row['customer_id'], $row['name'], etc.
+//         // You can perform any operations you need with the retrieved data here
+//         echo "Customer ID: " . $row['customer_id'] . ", Name: " . $row['name'] . ", Order ID: " . $row['order_id'] . ", Product ID: " . $row['product_id'] . ", Product Name: " . $row['product_name'] . "<br>";
+//     }
+
+//     // Free the result set
+//     $result->free();
+// } else {
+//     // Query execution failed
+//     echo "Error: " . $mysqli->error;
+// }
+
+// // Close the connection
+// $mysqli->close();

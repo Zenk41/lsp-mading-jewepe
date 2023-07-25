@@ -18,7 +18,7 @@ class Artikel extends Database
 
  public static function addArtikel(array $data)
  {
-  Database::addOne('artikel', 'ID_penulis, judul, konten, gambar', '?, ?, ?, ?', $data);
+  Database::addOne('artikel', 'ID_penulis, judul, konten, gambar, komentar', '?, ?, ?, ?, ?', $data);
  }
 
  public static function deleteArtikel(string $id)
@@ -26,6 +26,10 @@ class Artikel extends Database
   Database::deleteOne('artikel', 'ID_artikel', $id);
  }
 
+ public static function editArtikel(string $id, array $data)
+ {
+  Database::updateOne('artikel', $data, 'ID_artikel', $id);
+ }
 
 }
 

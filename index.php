@@ -11,7 +11,6 @@ use app\controllers\MainController;
 use app\controllers\AuthController;
 use app\controllers\DashboardController;
 
-;
 
 
 // auth
@@ -70,16 +69,33 @@ Router::post('/dashboard/artikel/create/validate', function () {
 
 });
 
+
 Router::get('/dashboard/artikel/create', function () {
  (new DashboardController())->createArtikel();
+});
+
+Router::post('/dashboard/artikel/(\d+)/edit/validate', function ($request) {
+ $artikelId = $request->params[0];
+ (new DashboardController())->artikelEditValidate($artikelId);
+});
+
+Router::get('/dashboard/artikel/(\d+)/edit', function ($request) {
+ $artikelId = $request->params[0];
+ (new DashboardController())->editArtikel($artikelId);
 });
 
 
 Router::get('/dashboard/artikel/delete', function () {
  (new DashboardController())->artikelDelete();
-
 });
 
+Router::get('/dashboard/artikel/unhidekomentar', function () {
+ (new DashboardController())->artikelKomentarUnHide();
+});
+
+Router::get('/dashboard/artikel/hidekomentar', function () {
+ (new DashboardController())->artikelKomentarHide();
+});
 
 Router::get('/dashboard/artikel', function () {
  (new DashboardController())->artikel();

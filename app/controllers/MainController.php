@@ -33,10 +33,15 @@ class MainController
  public static function detailArtikel(string $artikelId): void
  {
   $artikel = Artikel::findByID($artikelId);
-  $komentar = Komentar::allByArtikelId($artikelId);
-  $view = './app/views/main/pages/DetailArtikel.php';
-  include_once './app/views/main/layout/Layout.php';
-  exit;
+  if (isset($artikel)) {
+   $komentar = Komentar::allByArtikelId($artikelId);
+   $view = './app/views/main/pages/DetailArtikel.php';
+   include_once './app/views/main/layout/Layout.php';
+   exit;
+  } else {
+   echo "<script>alert('Article Not Found'); window.location.href='" . HOME . "';</script>";
+   exit;
+  }
  }
 
  public static function komentarValidate(string $artikelId): void
