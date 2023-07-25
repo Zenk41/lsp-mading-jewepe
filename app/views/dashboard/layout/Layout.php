@@ -40,15 +40,15 @@
      use app\models\Session;
 
      if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
-      if (Session::isAdmin($_SESSION['user_id'])) {
-       echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/komentar">Komentar</a></li>';
-       echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/laporan">Laporan</a></li>';
-       echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/logout">Logout</a></li>';
-      } else {
-       echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/logout">Logout</a></li>';
-      }
+       if (Session::isAdmin($_SESSION['user_id'])) {
+         echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/komentar">Komentar</a></li>';
+         echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/laporan">Laporan</a></li>';
+         echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/logout">Logout</a></li>';
+       } else {
+         echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/logout">Logout</a></li>';
+       }
      } else {
-      echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/login">Login</a></li>';
+       echo '<li class="nav-item"><a class="nav-link" href="' . BASE_URL_D . '/login">Login</a></li>';
      }
      ?>
 
@@ -82,6 +82,48 @@
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
   integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script>
+$(document).ready(function() {
+  // Listen for the form's submit event
+  $("#createartikel form").submit(function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get the status of the checkbox
+    var isChecked = $("#myCheckbox").prop("checked");
+
+    // Add the checkbox status to the form data
+    var formData = new FormData(this);
+    formData.append("isChecked", isChecked);
+
+    // Send the form data (including the checkbox status) to PHP through AJAX
+    $.ajax({
+      url: "<?php echo BASE_URL_D; ?>/artikel/create/validate", // Replace with the PHP processing script URL
+      method: "POST",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+        // Handle the response from PHP if needed
+        console.log(response);
+
+        // Redirect to success or error page, depending on the response
+        var successUrl = "<?php echo BASE_URL_D; ?>/success_page.php";
+        var errorUrl = "<?php echo BASE_URL_D; ?>/error_page.php";
+
+        if (response === "success") {
+          window.location.href = successUrl;
+        } else {
+          window.location.href = errorUrl;
+        }
+      },
+      error: function(xhr, status, error) {
+        // Handle errors if any
+        console.log("Error: " + error);
+      }
+    });
+  });
+});
+</script>
 </body>
 
 </html>

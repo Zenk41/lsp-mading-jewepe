@@ -335,3 +335,19 @@ class DashboardController
 
 }
 ?>
+
+
+
+<!-- if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["isChecked"])) {
+    $isChecked = $_POST["isChecked"];
+    if ($isChecked === "true") {
+        // Checkbox is checked
+        $result = "Checkbox is checked.";
+    } else {
+        // Checkbox is not checked
+        $result = "Checkbox is not checked.";
+    }
+
+    // You can use the $result variable as needed (e.g., save to the database, display on the page, etc.)
+    echo $result;
+} -->
